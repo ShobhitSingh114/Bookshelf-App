@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,12 +42,12 @@ fun HomeScreen(
     when (booksUiState) {
         is BooksUiState.Loading -> LoadingScreen(modifier.size(400.dp))
         is BooksUiState.Success -> BookGridScreen(books = booksUiState.books,
-            modifier = modifier
-            .padding(
-                start = dimensionResource(R.dimen.padding_medium),
-                top = dimensionResource(R.dimen.padding_medium),
-                end = dimensionResource(R.dimen.padding_medium)
-            ),
+            modifier = modifier,
+//            .padding(
+//                start = dimensionResource(R.dimen.padding_medium),
+//                top = dimensionResource(R.dimen.padding_medium),
+//                end = dimensionResource(R.dimen.padding_medium)
+//            ),
             contentPadding = contentPadding
         )
         else -> ErrorScreen(retryAction = retryAction, modifier)
@@ -60,9 +61,11 @@ fun BookGridScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     LazyVerticalGrid(
-//        columns = GridCells.FixedSize(600.dp),
-        columns = GridCells.Adaptive(150.dp),
-        modifier = modifier.padding(horizontal = 4.dp),
+        columns = GridCells.Fixed(2),
+//        columns = GridCells.Adaptive(150.dp),
+        modifier = modifier
+            .padding(horizontal = 2.dp)
+        ,
         contentPadding = contentPadding
     ) {
         items(
@@ -76,9 +79,9 @@ fun BookGridScreen(
             BooksCard(
                 bookImage = it.volumeInfo.imageLinks,
                 modifier = modifier
-                    .padding(4.dp)
-                    .fillMaxWidth()
-                    .aspectRatio(1.5f)
+                    .padding(2.dp)
+//                    .fillMaxWidth()
+//                    .aspectRatio(1.5f)
             )
         }
     }
@@ -87,7 +90,9 @@ fun BookGridScreen(
 @Composable
 fun BooksCard(bookImage: ImageLinks, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .size(width = 200.dp, height = 300.dp),
+        shape = RoundedCornerShape(0.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         AsyncImage(
